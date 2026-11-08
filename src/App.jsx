@@ -1,4 +1,30 @@
+import AskKishan from "./AskKishan"
 export default function App() {
+  const projects = [
+    {
+      name: "FocusIQ",
+      tag: "AI · Productivity",
+      status: "Live",
+      problem: "I never knew what to work on first, so my tasks kept piling up.",
+      built: "A Flask web app where you add tasks and get AI advice on what to do first, powered by the Groq API. It started as a CLI tool and grew into a deployed web app with a separate task list for each visitor.",
+      role: "Solo: backend, AI integration, UI and deployment.",
+      tech: ["Python", "Flask", "Groq API", "Render"],
+      live: "https://focusiq-pwr6.onrender.com",
+      source: "https://github.com/kishankshetty77",
+    },
+    {
+      name: "KishanOS",
+      tag: "AI · Identity",
+      status: "Building",
+      problem: "A PDF resume can't show recruiters what a fresher can actually build.",
+      built: "A living profile where every skill links to proof. This is the site you're looking at right now.",
+      role: "Solo: design, frontend and deployment.",
+      tech: ["React", "Tailwind", "Vite", "Vercel"],
+      live: null,
+      source: "https://github.com/kishankshetty77/kishanOS",
+    },
+  ]
+
   return (
     <div className="bg-black min-h-screen text-white font-mono">
 
@@ -85,14 +111,14 @@ export default function App() {
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { skill: "Python", level: "Advanced", proof: "github.com/kishankshetty77" },
+            { skill: "Python", level: "Advanced", proof: "FocusIQ" },
             { skill: "React", level: "Intermediate", proof: "KishanOS — this site" },
-            { skill: "Flask", level: "Intermediate", proof: "FocusIQ Backend" },
-            { skill: "AI/ML", level: "Intermediate", proof: "FocusIQ AI Layer" },
+            { skill: "Flask", level: "Intermediate", proof: "FocusIQ backend" },
+            { skill: "AI/ML", level: "Intermediate", proof: "FocusIQ AI layer" },
             { skill: "Groq API", level: "Intermediate", proof: "FocusIQ" },
             { skill: "Git & GitHub", level: "Advanced", proof: "github.com/kishankshetty77" },
             { skill: "Tailwind CSS", level: "Intermediate", proof: "KishanOS — this site" },
-            { skill: "REST APIs", level: "Intermediate", proof: "FocusIQ Backend" },
+            { skill: "REST APIs", level: "Intermediate", proof: "FocusIQ backend" },
           ].map((item) => (
             <div key={item.skill} className="border border-gray-800 p-4 hover:border-orange-500 transition">
               <p className="text-white font-bold mb-1">{item.skill}</p>
@@ -110,44 +136,49 @@ export default function App() {
           Things I've <span className="text-orange-500">Shipped</span>
         </h2>
         <div className="grid md:grid-cols-2 gap-8">
-          {[
-            {
-              name: "FocusIQ",
-              tag: "AI · Productivity",
-              desc: "AI-powered task prioritizer that helps users focus on what matters most. Built with Python, Flask, and Groq API.",
-              tech: ["Python", "Flask", "Groq API", "React"],
-              link: "github.com/kishankshetty77",
-              status: "Live"
-            },
-            {
-              name: "KishanOS",
-              tag: "AI · Identity",
-              desc: "AI-powered professional identity platform replacing static resumes. The app you're looking at right now.",
-              tech: ["React", "Tailwind", "Vite", "Claude API"],
-              link: "github.com/kishankshetty77/kishanOS",
-              status: "Building"
-            },
-          ].map((project) => (
-            <div key={project.name} className="border border-gray-800 p-8 hover:border-orange-500 transition">
-              <div className="flex justify-between items-start mb-4">
+          {projects.map((project) => (
+            <div key={project.name} className="border border-gray-800 p-8 hover:border-orange-500 transition flex flex-col">
+              <div className="flex justify-between items-start mb-6">
                 <div>
                   <p className="text-orange-500 text-xs tracking-widest mb-1">{project.tag}</p>
                   <h3 className="text-2xl font-bold">{project.name}</h3>
                 </div>
-                <span className={`text-xs px-2 py-1 ${project.status === 'Live' ? 'bg-green-500/20 text-green-400' : 'bg-orange-500/20 text-orange-400'}`}>
+                <span className={`text-xs px-2 py-1 ${project.status === "Live" ? "bg-green-500/20 text-green-400" : "bg-orange-500/20 text-orange-400"}`}>
                   {project.status}
                 </span>
               </div>
-              <p className="text-gray-400 mb-6 leading-relaxed">{project.desc}</p>
+
+              <div className="flex flex-col gap-4 mb-6">
+                {[
+                  { label: "PROBLEM", text: project.problem },
+                  { label: "WHAT I BUILT", text: project.built },
+                  { label: "MY ROLE", text: project.role },
+                ].map((row) => (
+                  <div key={row.label}>
+                    <p className="text-orange-500 text-xs tracking-widest mb-1">{row.label}</p>
+                    <p className="text-gray-400 text-sm leading-relaxed">{row.text}</p>
+                  </div>
+                ))}
+              </div>
+
               <div className="flex flex-wrap gap-2 mb-6">
-                {project.tech.map(t => (
+                {project.tech.map((t) => (
                   <span key={t} className="text-xs border border-gray-700 px-2 py-1 text-gray-400">{t}</span>
                 ))}
               </div>
-              <a href={`https://${project.link}`}
-                 className="text-orange-500 text-sm hover:underline">
-                View Project →
-              </a>
+
+              <div className="flex gap-6 mt-auto">
+                {project.live && (
+                  <a href={project.live} target="_blank" rel="noreferrer"
+                     className="text-orange-500 text-sm hover:underline">
+                    Live Demo →
+                  </a>
+                )}
+                <a href={project.source} target="_blank" rel="noreferrer"
+                   className="text-gray-400 text-sm hover:text-orange-500 hover:underline">
+                  Source Code →
+                </a>
+              </div>
             </div>
           ))}
         </div>
@@ -169,7 +200,7 @@ export default function App() {
             { label: "LinkedIn", value: "linkedin.com/in/kishan-k-shetty", link: "https://linkedin.com/in/kishan-k-shetty" },
             { label: "Instagram", value: "@kishanbuilds", link: "https://instagram.com/kishanbuilds" },
           ].map((item) => (
-            <a key={item.label} href={item.link}
+            <a key={item.label} href={item.link} target="_blank" rel="noreferrer"
                className="flex justify-between items-center border-b border-gray-800 pb-4 hover:border-orange-500 transition group">
               <span className="text-gray-500 text-sm">{item.label}</span>
               <span className="text-white group-hover:text-orange-500 transition text-sm">{item.value} →</span>
@@ -185,6 +216,7 @@ export default function App() {
         </p>
       </footer>
 
-    </div>
+          <AskKishan />
+          </div>
   )
 }
