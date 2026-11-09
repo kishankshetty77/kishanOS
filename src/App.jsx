@@ -1,4 +1,5 @@
 import AskKishan from "./AskKishan"
+import { Analytics } from "@vercel/analytics/react"
 export default function App() {
   const projects = [
     {
@@ -216,7 +217,9 @@ export default function App() {
         </p>
       </footer>
 
-          <AskKishan />
-          </div>
+       
+      <Analytics />
+      <AskKishan />
+    </div>
   )
-}
+}               
