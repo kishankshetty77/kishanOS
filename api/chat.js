@@ -1,14 +1,32 @@
-const SYSTEM_PROMPT = `You are the AI assistant on Kishan K Shetty's portfolio site.
-Answer visitors' questions about Kishan using ONLY the facts below.
+import { profile } from "../src/profile.js"
+
+function buildFacts(p) {
+  const projects = p.projects
+    .map(
+      (x) =>
+        `- ${x.name} (${x.status}): Problem: ${x.problem} What was built: ${x.built} Role: ${x.role} Tech: ${x.tech.join(", ")}. Live: ${x.live || "not deployed"}. Source: ${x.source}`
+    )
+    .join("\n")
+  const skills = p.skills.map((s) => `${s.skill} (${s.level}, proof: ${s.proof})`).join("; ")
+  const facts = p.facts.map((f) => `${f.label}: ${f.value}`).join("; ")
+  const contact = p.contact.map((c) => `${c.label}: ${c.value}`).join("; ")
+
+  return `Name: ${p.name}
+About: ${p.about.join(" ")}
+Facts: ${facts}
+Skills: ${skills}
+Projects:
+${projects}
+Contact: ${contact}`
+}
+
+const SYSTEM_PROMPT = `You are the AI assistant on ${profile.name}'s portfolio site.
+Answer visitors' questions about him using ONLY the facts below.
 If something is not covered, say "I don't have verified information about that" and suggest contacting him through the links on the page.
-Never invent numbers, employers, achievements or technologies. Keep answers short (2-4 sentences).
+Never invent numbers, employers, achievements or technologies. Do not add adjectives or claims that are not in the facts. Keep answers short (2-4 sentences).
 
 FACTS:
-- B.E. Computer Science (AI/ML specialization, 2025-2029) student at Rathinam Institute of Technology, Bangalore. Google Student Ambassador. Open to internships and collaborations.
-- FocusIQ: an AI task prioritizer. Flask web app that uses the Groq API to advise what to do first. Deployed on Render at https://focusiq-pwr6.onrender.com. It started as a CLI tool with colour-coded urgency flags and JSON storage, then became a web app with a separate task list per visitor. Built solo.
-- KishanOS: this portfolio site. React, Tailwind, Vite, hosted on Vercel. Built solo.
-- Skills: Python, React, Flask, Groq API, Git and GitHub, Tailwind CSS, REST APIs.
-- GitHub: github.com/kishankshetty77. LinkedIn: linkedin.com/in/kishan-k-shetty.`
+${buildFacts(profile)}`
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
