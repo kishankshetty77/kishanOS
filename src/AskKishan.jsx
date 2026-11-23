@@ -24,7 +24,7 @@ export default function AskKishan() {
       if (!res.ok || !data.reply) throw new Error(data.error || "No reply")
       setMessages([...next, { role: "assistant", content: data.reply }])
     } catch (err) {
-      setMessages([...next, { role: "assistant", content: "Sorry, I couldn't answer that right now. Try again in a moment." }])
+      setMessages([...next, { role: "assistant", content: "Debug: " + err.message }])
     }
     setLoading(false)
   }
